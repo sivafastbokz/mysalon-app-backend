@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res } from '@nestjs/common';
 import { SalonService } from './salon.service' ;
 import { SalonImgHeader } from './salon.schema';
 
@@ -19,7 +19,11 @@ export class SalonController {
   }
 
   @Get('getimg')
-  async getImg(){
+  async getImg(@Res() res){
+    // res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+    // res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
+    // res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    
     try {
         const fingImg = this.salonService.getImg()
         return await fingImg
