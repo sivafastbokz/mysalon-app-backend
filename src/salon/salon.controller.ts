@@ -19,11 +19,7 @@ export class SalonController {
   }
 
   @Get('getimg')
-  async getImg(@Res() res){
-    // res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-    // res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
-    // res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    
+  async getImg(){
     try {
         const fingImg = this.salonService.getImg()
         return await fingImg
