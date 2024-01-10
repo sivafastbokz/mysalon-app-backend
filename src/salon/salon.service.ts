@@ -16,7 +16,7 @@ export class SalonService {
         const HeaderImg = new this.SalonImgModel({img})
         return  await HeaderImg.save()
      } catch (error) {
-        throw error
+        throw new Error (`Failed to post image: ${error.message}`);
      }
  }
 
@@ -25,7 +25,7 @@ export class SalonService {
         const getImages = this.SalonImgModel.find()
         return await getImages
     } catch (error) {
-        throw error
+        throw new Error (`Failed to get image: ${error.message}`);
     }
  }
 
