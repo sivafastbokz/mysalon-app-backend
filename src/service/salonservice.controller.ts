@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Res, HttpStatus, UnauthorizedException } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res, HttpStatus } from '@nestjs/common';
 import { Service } from './salonservice.service';
 import { SalonService } from './salonservice.schema';
 
