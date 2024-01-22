@@ -1,14 +1,31 @@
 import { Module } from '@nestjs/common';
+import { PassportModule } from '@nestjs/passport';
+import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { config } from 'src/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SalonService } from './salon.service';
 import { SalonController } from './salon.controller';
-import { salonImgSchema } from './salon.schema';
+import { customerData } from './salon.schema';
 
 @Module({
    imports:[
+    PassportModule.register({defaultStrategy:'jwt'}),
+    ConfigModule.forRoot(),
+    JwtModule.registerAsync({
+      imports:[ConfigModule],
+      inject:[ConfigService],
+      useFactory:(config:ConfigService)=>{
+         return{
+            secret:config.get<string>('JWT_SERCRETKEY'),
+            signOptions:{
+               expiresIn:config.get<string|number>('EXPIRES_IN')
+            }
+         }
+      }
+    }),
     MongooseModule.forRoot(config.dbUrl),
-    MongooseModule.forFeature([{name:'salonimages',schema:salonImgSchema}])
+    MongooseModule.forFeature([{name:'customerdata',schema:customerData}])
    ],
    providers:[SalonService],
    controllers:[SalonController] 

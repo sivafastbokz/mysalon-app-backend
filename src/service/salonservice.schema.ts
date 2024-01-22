@@ -6,11 +6,13 @@ export type ServiceDocument = SalonService & Document
 @Schema()
 export class SalonService {
     @Prop()
-    serviceImage:string
+    serviceImage:string;
+
     @Prop()
-    serviceName:string
+    serviceName:string;
+
     @Prop()
-    servicePrice:number
+    servicePrice:number;
 }
 
 export const serviceSchema = SchemaFactory.createForClass(SalonService);

@@ -1,6 +1,8 @@
 import { Body, Controller, Get, Post, Res, HttpStatus } from '@nestjs/common';
 import { SalonService } from './salon.service' ;
-import { SalonImgHeader } from './salon.schema';
+import { SalonCutomerData } from './salon.schema';
+import { SignUpDto } from './dto/salon.dto';
+import { SignInDto } from './dto/salon.dto';
 
 @Controller('mysalon')
 export class SalonController {
@@ -8,37 +10,56 @@ export class SalonController {
     private readonly salonService:SalonService
  ) {}
 
- @Post('postimg')
-  async postImg(@Body() img:SalonImgHeader, @Res() response){
+ @Post('signup')
+ async createCustomer(@Body() reqObj:SignUpDto, @Res() response){
     try {
-        const newImg =  await this.salonService.postImgs(img) 
-        return response.status(HttpStatus.OK).json({
-          statusCode:HttpStatus.CREATED,
-          message:'Image posted successfully',newImg
-        })
+      const newCustomer = await this.salonService.signUp(reqObj)
+      return response.status(HttpStatus.OK).json({
+        message: 'Account created successfully',newCustomer
+      });
     } catch (error) {
-        return response.status(HttpStatus.BAD_REQUEST).json({
-          statusCode:400,
-          message:'Error: Image not created',
-          error:'Bad Request'
-        })
-    }
-  }
-
-  @Get('getimg')
-  async getImg(@Res() response){
-    try {
-        const fingImg = await this.salonService.getImg()
-        return  response.status(HttpStatus.OK).json({
-          statusCode:HttpStatus.CREATED,
-          message:'Image found successfully',fingImg
-        })
-    } catch (error) {
+      console.log(error)
       return response.status(HttpStatus.BAD_REQUEST).json({
         statusCode:400,
-        message:'Error: Image not found',
+        message:'Error: Account not created',
         error:'Bad Request'
       })
     }
+ }
+
+ @Get('customerlist')
+ async getCustomers(@Res() response){
+  try {
+    const customerlist = await this.salonService.getAllCustomer()
+    return response.status(HttpStatus.OK).json({
+      message:'Customer List',customerlist
+    })
+  } catch (error) {
+    return response.status(HttpStatus.BAD_REQUEST).json({
+      statusCode:400,
+      message:'Error: Cannot get customers',
+      error:'Bad Request'
+    })
   }
+ }
+ 
+ @Post('signin')
+async signIn(@Body() reqObj:SignInDto,@Res() response):Promise<{token:string}>{
+  try {
+    const {token} = await this.salonService.signIn(reqObj)
+    return response.status(HttpStatus.OK).json({
+      message:'signIn successfull',
+      data:token
+    })
+  } catch (error) {
+    return response.status(HttpStatus.UNAUTHORIZED).json({
+      statusCode: HttpStatus.UNAUTHORIZED,
+      message: 'Error: Cannot sign in!',
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+}
+
+
+
 }
