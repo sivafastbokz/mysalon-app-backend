@@ -19,10 +19,6 @@ export class SalonService {
 async signUp(reqObj:SignUpDto):Promise<SignUpDto>{
     try {
         const { name,email,phoneNumber,password } = reqObj
-        const sameCustomerName = await this.salonCustomerModel.findOne({name})
-        if(sameCustomerName){
-            throw new UnauthorizedException('This username is already taken')
-        }
         const customerPassword = await hashedPassword(password);
         const newCustomer = new this.salonCustomerModel({name,email,phoneNumber,password:customerPassword})
         return await newCustomer.save();
