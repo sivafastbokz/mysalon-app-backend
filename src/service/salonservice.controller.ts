@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Res, HttpStatus } from '@nestjs/common';
 import { Service } from './salonservice.service';
 import { SalonService } from './salonservice.schema';
+import { CreateServiceDto } from './dto/service.dto';
 
 @Controller('service')
 export class SalonServiceController {
@@ -9,7 +10,7 @@ constructor(
 ) {}
 
 @Post('create')
-async addService(@Body() reqBody:SalonService, @Res() response){
+async addService(@Body() reqBody:CreateServiceDto, @Res() response){
   try {
     const newService = await this.service.createService(reqBody)
     return response.status(HttpStatus.CREATED).json({

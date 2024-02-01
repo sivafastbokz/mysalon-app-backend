@@ -10,7 +10,7 @@ export class SalonService {
 
     @Prop()
     serviceName:string;
-
+    
     @Prop()
     servicePrice:number;
 }

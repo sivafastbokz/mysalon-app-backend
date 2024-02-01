@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { SalonService, ServiceDocument  } from './salonservice.schema';
+import { CreateServiceDto } from './dto/service.dto';
 
 @Injectable()
 export class Service {
@@ -10,7 +11,7 @@ export class Service {
   private readonly  serviceModel: Model<ServiceDocument>
  ) {}
   
- async createService(reqBody:SalonService):Promise<any>{
+ async createService(reqBody:CreateServiceDto):Promise<any>{
    try {
     const {serviceImage,serviceName,servicePrice} = reqBody
     const createService = new this.serviceModel({serviceImage,serviceName,servicePrice})
