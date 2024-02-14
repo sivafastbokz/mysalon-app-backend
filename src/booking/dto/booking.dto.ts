@@ -14,4 +14,7 @@ export class BookingDto {
     @IsOptional()
     @IsString()
     bookingTime: string;
+
+    @IsOptional()
+    bookedDate:string;
 }

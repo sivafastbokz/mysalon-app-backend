@@ -13,8 +13,8 @@ export class BookingService {
  
    async CreateBooking(reqObj:BookingDto):Promise<any>{
      try {
-        const {userId,bookingName,bookingDate,bookingTime} = reqObj
-        const newBooking = new this.bookingModel({userId,bookingName,bookingDate,bookingTime})
+        const {userId,bookingName,bookingDate,bookingTime,bookedDate} = reqObj
+        const newBooking = new this.bookingModel({userId,bookingName,bookingDate,bookingTime,bookedDate})
         return await newBooking.save();
      } catch (error) {
         throw new Error (`Failed to create booking: ${error.message}`)
