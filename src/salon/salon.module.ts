@@ -7,6 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { SalonService } from './salon.service';
 import { SalonController } from './salon.controller';
 import { customerData } from './salon.schema';
+import { MailModule } from 'src/mail/mail.module';
 
 @Module({
    imports:[
@@ -25,7 +26,8 @@ import { customerData } from './salon.schema';
       }
     }),
     MongooseModule.forRoot(config.dbUrl),
-    MongooseModule.forFeature([{name:'customerdata',schema:customerData}])
+    MongooseModule.forFeature([{name:'customerdata',schema:customerData}]),
+    MailModule
    ],
    providers:[SalonService],
    controllers:[SalonController] 

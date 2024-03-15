@@ -37,6 +37,4 @@ export class MailService {
         console.log(error)
        }
     }
-
-
 }

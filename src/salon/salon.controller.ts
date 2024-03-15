@@ -1,19 +1,30 @@
 import { Body, Controller, Get, Post, Res, HttpStatus } from '@nestjs/common';
 import { SalonService } from './salon.service' ;
-import { SalonCutomerData } from './salon.schema';
+// import { SalonCutomerData } from './salon.schema';
 import { SignUpDto } from './dto/salon.dto';
 import { SignInDto } from './dto/salon.dto';
+import { MailService,SendEmailDto } from 'src/mail/mail.service';
 
 @Controller('mysalon')
 export class SalonController {
  constructor(
-    private readonly salonService:SalonService
+    private readonly salonService:SalonService,
+    private readonly mailservice:MailService
  ) {}
 
  @Post('signup')
  async createCustomer(@Body() reqObj:SignUpDto, @Res() response){
     try {
       const newCustomer = await this.salonService.signUp(reqObj)
+      const dto : SendEmailDto = {
+        recipients:[{name:newCustomer.name,address:newCustomer.email}],
+        subject:'Welcome to MySalon',
+        text:`Dear ${newCustomer.name} Welcome to MySalon, your one-stop destination for all your grooming needs! We are thrilled to have you join our community.
+        At MySalon, we are committed to providing you with top-notch services and ensuring that every visit leaves you feeling refreshed and rejuvenated. Whether it's a haircut, a relaxing massage, or a refreshing facial, our team of experienced professionals is here to cater to your every need.`,
+        html:`Dear ${newCustomer.name} <br/> Welcome to MySalon, your one-stop destination for all your grooming needs! We are thrilled to have you join our community.
+        At MySalon, we are committed to providing you with top-notch services and ensuring that every visit leaves you feeling refreshed and rejuvenated. Whether it's a haircut, a relaxing massage, or a refreshing facial, our team of experienced professionals is here to cater to your every need.`,    
+      }
+      await this.mailservice.SendEmail(dto)
       return response.status(HttpStatus.OK).json({
         message: 'Account created successfully',newCustomer
       });

@@ -5,7 +5,6 @@ import { MailService, SendEmailDto } from './mail.service';
 export class MailController {
   constructor(private readonly mailerService: MailService) {}
 
-
 @Post('send-email')
 sendEmail(){
   const dto :SendEmailDto = {
