@@ -12,9 +12,10 @@ import { MailerModule } from '@nestjs-modules/mailer';
       inject:[ConfigService],
       useFactory:async (configService:ConfigService) => ({
         transport:{
+          service:'gmail',
           host: configService.get<string>('MAIL_HOST'),
           port: configService.get<number>('MAIL_PORT'),
-          secure: false,
+          secure: true,
           auth: {
             user: configService.get<string>('MAIL_USER'),
             pass: configService.get<string>('MAIL_PASSWORD'),
