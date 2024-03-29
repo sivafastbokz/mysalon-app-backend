@@ -2,11 +2,17 @@ import { Body, Controller, Get, HttpStatus, Post, Res, UseGuards, Param, Unautho
 import { BookingService } from './booking.service';
 import { AuthorizationGuard } from 'src/guard/authorization.guard';
 import { BookingDto } from './dto/booking.dto';
+import { MailService, SendEmailDto } from 'src/mail/mail.service';
+import { SalonService } from 'src/salon/salon.service';
 
 @UseGuards(AuthorizationGuard)
 @Controller('mysalon')
 export class BookingController {
-  constructor(private readonly bookingService: BookingService) {}
+  constructor(
+    private readonly bookingService: BookingService,
+    private readonly mailService:MailService,
+    private readonly salonService:SalonService
+    ) {}
   
   @Post('booking')
   async addBooking(@Body() reqObj:BookingDto,@Res() response){
@@ -16,6 +22,14 @@ export class BookingController {
             throw new UnauthorizedException('Unauthorized');
       }
       const newBooking = await this.bookingService.CreateBooking({...reqObj,userId:userId})
+      const user = await this.salonService.findByUserId(userId)
+      const Dto: SendEmailDto = {
+         recipients:[{name:user.name,address:user.email}],
+         subject: 'Appointment Confirmation',
+         text: `Dear ${user.name}, your appointment for ${newBooking.bookingName} has been confirmed for ${newBooking.bookingDate} at ${newBooking.bookingTime}.`,
+         html: `<p>Dear ${user.name}, your appointment for ${newBooking.bookingName} has been confirmed for ${newBooking.bookingDate} at ${newBooking.bookingTime}.</p>`
+      }
+      await this.mailService.SendEmail(Dto)
       return response.status(HttpStatus.CREATED).json({
         message:'Booking created successfully',newBooking
       });

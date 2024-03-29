@@ -30,7 +30,8 @@ import { MailModule } from 'src/mail/mail.module';
     MailModule
    ],
    providers:[SalonService],
-   controllers:[SalonController] 
+   controllers:[SalonController],
+   exports:[SalonService]
 })
 
 export class SalonModule {}

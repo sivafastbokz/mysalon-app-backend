@@ -54,5 +54,13 @@ async signIn(reqObj:SignInDto):Promise<{token:string}> {
     }
   }
   
+async findByUserId(id:string){
+   try {
+    const getUserById = await this.salonCustomerModel.findById(id)
+    return getUserById
+   } catch (error) {
+    throw new Error(`Failed to get customers: ${error.message}`);
+   }
+}
 
 }

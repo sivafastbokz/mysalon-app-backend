@@ -7,6 +7,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { config } from 'src/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { bookingSchema } from './booking.schema';
+import { MailModule } from 'src/mail/mail.module';
+import { SalonModule } from 'src/salon/salon.module';
 
 @Module({
   imports:[
@@ -19,13 +21,15 @@ import { bookingSchema } from './booking.schema';
          return{
             secret:config.get<string>('JWT_SERCRETKEY'),
             signOptions:{
-               expiresIn:config.get<string|number>('EXPIRES_IN')
-            }
-         }
+              expiresIn:config.get<string|number>('EXPIRES_IN')
+          }
+        }
       }
     }),
     MongooseModule.forRoot(config.dbUrl),
-    MongooseModule.forFeature([{name:'bookingdata',schema:bookingSchema}])
+    MongooseModule.forFeature([{name:'bookingdata',schema:bookingSchema}]),
+    MailModule,
+    SalonModule
   ],
   controllers: [BookingController],
   providers: [BookingService],

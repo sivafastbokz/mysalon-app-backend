@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Res, HttpStatus } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res, HttpStatus, Param } from '@nestjs/common';
 import { SalonService } from './salon.service' ;
 // import { SalonCutomerData } from './salon.schema';
 import { SignUpDto } from './dto/salon.dto';
@@ -71,6 +71,19 @@ async signIn(@Body() reqObj:SignInDto,@Res() response):Promise<{token:string}>{
   }
 }
 
-
-
+@Get('user/:id')
+async getUserById(@Param('id') id:string,@Res() response){
+  try {
+    const findUser = await this.salonService.findByUserId(id)
+    return response.status(HttpStatus.OK).json({
+      message:'Found User',findUser
+    })
+  } catch (error) {
+    return response.status(HttpStatus.BAD_REQUEST).json({
+      statusCode:400,
+      message:'Error: Cannot get User',
+      error:'Bad Request'
+    })
+  }
+}
 }
