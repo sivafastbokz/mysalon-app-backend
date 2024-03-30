@@ -30,4 +30,22 @@ export class BookingService {
     }
 }
 
+   async updateBooking(id,data){
+    try {
+        const update = this.bookingModel.findByIdAndUpdate(id,data,{new:true})
+        return await update
+    } catch (error) {
+        throw new Error(`Failed to Update Booking: ${error.message}`);
+    }
+   }
+
+   async deleteBooking(id:string){
+    try {
+        const deleteBooking = this.bookingModel.findByIdAndDelete(id)
+        return await deleteBooking
+    } catch (error) {
+        throw new Error(`Failed to Delete Booking: ${error.message}`);
+    }
+   }
+
 }

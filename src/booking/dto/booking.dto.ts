@@ -18,3 +18,17 @@ export class BookingDto {
     @IsOptional()
     bookedDate:string;
 }
+
+export class UpdateBookingDto {
+    @IsString()
+    @IsOptional()
+    bookingName: string;
+
+    @IsOptional()
+    @IsString()
+    bookingDate: string;
+
+    @IsOptional()
+    @IsString()
+    bookingTime: string;
+}

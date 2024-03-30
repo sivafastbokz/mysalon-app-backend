@@ -1,7 +1,8 @@
-import { Body, Controller, Get, HttpStatus, Post, Res, UseGuards, Param, UnauthorizedException, Put,} from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Res, UseGuards, Param, UnauthorizedException, Put, Delete,} from '@nestjs/common';
 import { BookingService } from './booking.service';
 import { AuthorizationGuard } from 'src/guard/authorization.guard';
 import { BookingDto } from './dto/booking.dto';
+import { UpdateBookingDto } from './dto/booking.dto';
 import { MailService, SendEmailDto } from 'src/mail/mail.service';
 import { SalonService } from 'src/salon/salon.service';
 
@@ -58,5 +59,37 @@ export class BookingController {
         });
     }
 }
+  
+  @Put('update/:id')
+  async UpdateBooking(@Param('id') id:string ,@Res() response, @Body() updateDto:UpdateBookingDto){
+     try {
+      const update = await this.bookingService.updateBooking(id,updateDto)
+      return response.status(HttpStatus.OK).json({
+        message: 'booking Updated successfully',update
+    });
+     } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        statusCode: 400,
+        message: 'Error:Cannot Update Booking!',
+        error: 'Bad Request'
+    });
+     }
+  }
+
+  @Delete('delete/:id')
+  async deleteBooking(@Param('id') id:string, @Res() response){
+    try {
+       const deleteBooking = await this.bookingService.deleteBooking(id)
+       return response.status(HttpStatus.OK).json({
+        message: 'booking Deleted successfully',deleteBooking
+    });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        statusCode: 400,
+        message: 'Error:Cannot delete Booking!',
+        error: 'Bad Request'
+    });
+    }
+  }
 
 }
