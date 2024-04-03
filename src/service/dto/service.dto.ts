@@ -1,4 +1,4 @@
-import { IsString,IsNumber } from 'class-validator';
+import { IsString,IsNumber, IsOptional } from 'class-validator';
 
 export class CreateServiceDto {
     @IsString()
@@ -8,5 +8,19 @@ export class CreateServiceDto {
     serviceName: string;
 
     @IsNumber()
+    servicePrice: number;
+}
+
+export class UpdateServiceDto {
+    @IsString()
+    @IsOptional()
+    serviceImage: string;
+
+    @IsString()
+    @IsOptional()
+    serviceName: string;
+
+    @IsNumber()
+    @IsOptional()
     servicePrice: number;
 }

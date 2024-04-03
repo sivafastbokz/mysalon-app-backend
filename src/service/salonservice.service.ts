@@ -30,4 +30,12 @@ export class Service {
     }
  }
 
+ async updateService(id,data){
+  try {
+    const update = this.serviceModel.findByIdAndUpdate(id,data,{new:true})
+    return await update
+  } catch (error) {
+    throw new Error (`Failed to get service: ${error.message}`)
+  }
+ }
 }

@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Post, Res, HttpStatus } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res, HttpStatus, Put, Param } from '@nestjs/common';
 import { Service } from './salonservice.service';
-import { SalonService } from './salonservice.schema';
 import { CreateServiceDto } from './dto/service.dto';
+import { UpdateServiceDto } from './dto/service.dto';
 
 @Controller('service')
 export class SalonServiceController {
@@ -41,4 +41,19 @@ async getService(@Res() response){
     }
 }
 
+@Put('update/:id')
+async updateService(@Param('id') id:string,@Res() response, @Body() updateDto:UpdateServiceDto){
+  try {
+     const UpdateData = await this.service.updateService(id,updateDto)
+     return response.status(HttpStatus.OK).json({
+      messages:'serivce Updated successfully',UpdateData
+  })
+  } catch (error) {
+    return response.status(HttpStatus.BAD_REQUEST).json({
+      statusCode:400,
+      message:'Error: Service not Updated',
+      error:'Bad Request'
+    })
+  }
+}
 } 
