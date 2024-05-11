@@ -17,8 +17,8 @@ export class Booking {
   @Prop()
   bookingName:string;
 
-  @Prop()
-  bookingDate:string;
+  @Prop({type:Date})
+  bookingDate:Date;
 
   @Prop()
   bookingTime:string;
