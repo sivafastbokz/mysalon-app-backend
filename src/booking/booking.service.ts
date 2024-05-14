@@ -47,5 +47,4 @@ export class BookingService {
         throw new Error(`Failed to Delete Booking: ${error.message}`);
     }
    }
-
 }
