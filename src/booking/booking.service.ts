@@ -19,7 +19,7 @@ export class BookingService {
      } catch (error) {
         throw new Error (`Failed to create booking: ${error.message}`)
      }
-   } 
+} 
 
    async getBooking({userId}:{userId:string}){
     try {
@@ -37,7 +37,7 @@ export class BookingService {
     } catch (error) {
         throw new Error(`Failed to Update Booking: ${error.message}`);
     }
-   }
+}
 
    async deleteBooking(id:string){
     try {
@@ -46,5 +46,5 @@ export class BookingService {
     } catch (error) {
         throw new Error(`Failed to Delete Booking: ${error.message}`);
     }
-   }
+}
 }
